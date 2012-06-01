@@ -2,6 +2,22 @@ module Play
   # API endpoints to support broader, systems-level functions.
   class App < Sinatra::Base
 
+    get "/images/art/current" do
+      content_type 'image/png'
+
+      song = Player.now_playing
+
+      art = song.album_art_data if song
+
+      if art
+        art
+      else
+        dir = File.dirname(File.expand_path(__FILE__))
+        send_file "#{dir}/../frontend/public/images/art-placeholder.png",
+          :disposition => 'inline'
+      end
+    end
+
     get "/images/art/:id.png" do
       content_type 'image/png'
 
