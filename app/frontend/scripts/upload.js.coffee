@@ -25,12 +25,13 @@ $(document).ready () ->
   $('#fileupload').bind 'fileuploadsend', (e, data) ->
     $('body').fadeTo(0,1)
     $('#uploads').slideDown(75)
-    file = data.files[0].fileName
-    $('#current').text(file)
+    file = data.files[0].name
+    filesize = data.files[0].size / 1024 / 1024
+    filesize = Math.round(filesize * 100) / 100
+    $('#current').text("#{file} - #{filesize} MiB")
 
   # Triggered after all uploads are finished.
   $('#fileupload').bind 'fileuploadstop', (e, data) ->
-    $('#progressbar').slideUp(75)
     $('#uploads').hide()
 
   # Triggered when the mouse is dragging a file into the body. Fires randomly

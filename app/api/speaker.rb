@@ -26,14 +26,19 @@ module Play
       }.to_json
     end
 
+    get "/speaker/:id/volume" do
+      validate_speaker_id(params[:id])
+
+      speaker = Speaker.new(params[:id])
+      "%d" % (speaker.volume * 100)
+    end
+
     put "/speaker/:id/volume" do
       validate_speaker_id(params[:id])
 
       speaker = Speaker.new params[:id]
-      speaker.volume = params[:volume]
-      speaker = {
-        :speaker => speaker.to_hash
-      }.to_json
+      speaker.volume = params[:volume].to_i / 100.0
+      "%d" % (speaker.volume * 100)
     end
 
     put "/speaker/:id/connect" do
